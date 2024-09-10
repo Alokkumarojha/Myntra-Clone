@@ -1,26 +1,37 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const BagSummary = () => {
-  const BagSummary = {
-    totalItem: 3,
-    totalMRP: 3999,
-    totalDiscount: 999,
-    finalPayment: 3000,
-  };
+  const bagItemIds = useSelector((store) => store.bag);
+  const items = useSelector((store) => store.items);
+  const finalItems = items.filter((item) => {
+    const itemIndex = bagItemIds.indexOf(item.id);
+    return itemIndex >= 0;
+  });
+  let totalItem = bagItemIds.length;
+  let totalMRP = 0;
+  let totalDiscount = 0;
+  const CONVENIENCE_FEES = 99;
+
+  finalItems.forEach((bagItems) => {
+    totalMRP += bagItems.original_price;
+    totalDiscount += bagItems.original_price - bagItems.current_price;
+  });
+
+  let finalPayment = totalMRP - totalDiscount + CONVENIENCE_FEES;
+
   return (
     <div className="bag-summary">
       <div className="bag-details-container">
-        <div className="price-header">
-          PRICE DETAILS ({BagSummary.totalItem} Items){" "}
-        </div>
+        <div className="price-header">PRICE DETAILS ({totalItem} Items) </div>
         <div className="price-item">
           <span className="price-item-tag">Total MRP</span>
-          <span className="price-item-value">₹{BagSummary.totalMRP}</span>
+          <span className="price-item-value">₹{totalMRP}</span>
         </div>
         <div className="price-item">
           <span className="price-item-tag">Discount on MRP</span>
           <span className="price-item-value priceDetail-base-discount">
-            -₹{BagSummary.totalDiscount}
+            -₹{totalDiscount}
           </span>
         </div>
         <div className="price-item">
@@ -30,7 +41,7 @@ const BagSummary = () => {
         <hr />
         <div className="price-footer">
           <span className="price-item-tag">Total Amount</span>
-          <span className="price-item-value">₹{BagSummary.finalPayment}</span>
+          <span className="price-item-value">₹{finalPayment}</span>
         </div>
       </div>
       <button className="btn-place-order">

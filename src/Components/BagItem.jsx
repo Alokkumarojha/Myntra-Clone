@@ -1,9 +1,13 @@
 import React from "react";
 import { RxCross2 } from "react-icons/rx";
+import { useDispatch } from "react-redux";
+import { bagAction } from "../store/BagSlice";
 
 const BagItem = ({ item }) => {
+  const dispatch = useDispatch();
+
   const removeFromCart = () => {
-    console.log("removeFromCart clicked");
+    dispatch(bagAction.removeFromBag(item.id));
   };
   return (
     <div className="bag-item-container">

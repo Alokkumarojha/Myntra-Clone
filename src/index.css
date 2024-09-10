@@ -8,7 +8,7 @@
 header {
   display: flex;
   background-color: #ffffff;
-  height: 80px;
+  height: 82px;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #b6b1b1;
@@ -145,7 +145,6 @@ header {
   text-align: end;
   padding: 15px;
 }
-
 .items-container {
   width: 80%;
   margin: 40px 10%;
